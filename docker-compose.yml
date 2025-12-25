@@ -1,0 +1,24 @@
+services:
+  db:
+    image: postgres:16-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: HelloWorld
+      POSTGRES_DB: health_care
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  pg_admin:
+    image: dpage/pgadmin4
+    ports:
+      - "8080:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: f.yaasinn@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: dbadmin
+    depends_on:
+      - db
+
+volumes:
+  db_data:
