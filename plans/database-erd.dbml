@@ -1,0 +1,56 @@
+Table User {
+    id uuid [pk, default: `uuid__generate_v4()`]
+    email VARCHAR(255) [unique]
+    password VARCHAR(255)
+    role VARCHAR(50) [note: "role IN ('admin', 'patient', 'doctor')"]
+    status VARCHAR(50) [note: "status IN ('active', 'inactive')"]
+
+
+    created_at TIMESTAMP [default: `now()`]
+    updated_at TIMESTAMP [default: `now()`]
+}
+
+Table Patient {
+    id uuid [pk, default: `uuid__generate_v4()`]
+    email VARCHAR(255) [unique]
+    user_id uuid [ref: - User.id]
+    name VARCHAR(255)
+    profilePhoto VARCHAR(255)
+    contactNumber VARCHAR(20)
+    address VARCHAR(255)
+    isDeleted BOOLEAN [default: false]
+
+    created_at TIMESTAMP [default: `now()`]
+    updated_at TIMESTAMP [default: `now()`]
+}
+
+Table Doctor {
+    id uuid [pk, default: `uuid__generate_v4()`]
+    email VARCHAR(255) [unique]
+    user_id uuid [ref: - User.id]
+    name VARCHAR(255)
+    profilePhoto VARCHAR(255)
+    contactNumber VARCHAR(20)
+    address VARCHAR(255)
+    experience INT
+    gender VARCHAR(20) [note: "gender IN ('male', 'female')"]
+    qualification VARCHAR(255)
+    currentWorkplace VARCHAR(255)
+    designation VARCHAR(255)
+    isDeleted BOOLEAN [default: false]
+
+    created_at TIMESTAMP [default: `now()`]
+    updated_at TIMESTAMP [default: `now()`]
+}
+
+Table Admin {
+    id uuid [pk, default: `uuid__generate_v4()`]
+    user_id uuid [ref: - User.id]
+    name VARCHAR(255)
+    profilePhoto VARCHAR(255)
+    contactNumber VARCHAR(20)
+    isDeleted BOOLEAN [default: false]
+
+    created_at TIMESTAMP [default: `now()`]
+    updated_at TIMESTAMP [default: `now()`]
+}
