@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "baseUrl": "./src",
-    // "rootDir": "./src",
-    // "outDir": "./dist",
+    // "baseUrl": "./src",
+    "rootDir": "./src",
+    "outDir": "./dist",
     // "module": "ESNext",
     "module": "CommonJS",
     "moduleResolution": "node",
@@ -11,6 +11,5 @@
     "esModuleInterop": true,
     // "ignoreDeprecations": "6.0"
   },
-  "include": ["src", "src/types"],
-  "exclude": ["node_modules", "prisma.config.ts", "prisma"]
+  "include": ["src/**/*"]
 }

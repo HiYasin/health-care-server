@@ -1,6 +1,6 @@
 services:
   db:
-    image: postgres:16-alpine
+    image: postgres:latest
     ports:
       - "5432:5432"
     environment:
@@ -8,10 +8,10 @@ services:
       POSTGRES_PASSWORD: HelloWorld
       POSTGRES_DB: health_care
     volumes:
-      - db_data:/var/lib/postgresql/data
+      - db_data:/var/lib/postgresql
 
   pg_admin:
-    image: dpage/pgadmin4
+    image: dpage/pgadmin4:latest
     ports:
       - "8080:80"
     environment:

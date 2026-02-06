@@ -3,4 +3,10 @@ dist
 .env
 .env.test
 
-/generated/prisma
+# Prisma generated client
+/src/generated
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+.vscode/
