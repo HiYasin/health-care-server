@@ -8,4 +8,9 @@ export default {
     port: process.env.PORT,
     database_url: process.env.DATABASE_URL,
     salt_rounds: Number(process.env.SALT_ROUNDS),
+    cloudinary: {
+        cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+        api_key: process.env.CLOUDINARY_API_KEY,
+        api_secret: process.env.CLOUDINARY_API_SECRET,
+    }
 }
