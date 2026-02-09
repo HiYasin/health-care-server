@@ -4,8 +4,7 @@ import { jwtHelper } from "../helper/jwtHelper";
 const checkAuth = (...roles: string[]) => {
     return async (req: Request & { user?: any }, res: Response, next: NextFunction) => {
         try {
-            const token = req.cookies.get("accessToken");
-
+            const token = req.cookies.accessToken; // cookie parser must be installed and used in the app.ts to access cookies.
             if (!token) {
                 throw new Error("You are not authorized!")
             }

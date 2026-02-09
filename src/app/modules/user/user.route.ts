@@ -30,4 +30,10 @@ router.post(
     UserController.createDoctor
 );
 
+router.get(
+    "/get-all-users",
+    checkAuth(UserRole.ADMIN),
+    UserController.getAllUsers
+);
+
 export const userRoutes = router;

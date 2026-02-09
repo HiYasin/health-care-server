@@ -1,5 +1,7 @@
+import pick from "../../helper/pick";
 import catchAsync from "../../shared/catchAsync";
 import sendResponse from "../../shared/sendResponse";
+import { userFilterableFields, userPagniationFields } from "./user.constant";
 import { UserService } from "./user.service";
 import { Request, Response } from "express";
 
@@ -37,8 +39,25 @@ const createDoctor = catchAsync(async (req: Request, res: Response) => {
     })
 });
 
+
+const getAllUsers = catchAsync(async (req: Request, res: Response) => {
+    const filters = pick(req.query, userFilterableFields); // searching , filtering
+    const options = pick(req.query, userPagniationFields); // pagination and sorting
+
+    const result = await UserService.getAllUsers(filters, options);
+
+    sendResponse(res, {
+        statusCode: 200,
+        success: true,
+        message: "User retrieved successfully!",
+        meta: result.meta,
+        data: result.data
+    })
+});
+
 export const UserController = {
     createPatient,
     createAdmin,
-    createDoctor
+    createDoctor,
+    getAllUsers
 };
