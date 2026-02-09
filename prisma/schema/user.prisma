@@ -44,7 +44,7 @@ model Doctor {
   gender              Gender
   appointmentFee      Int
   qualification       String
-  currentWorkingplace String
+  currentWorkingPlace String
   designation         String
   isDeleted           Boolean @default(false)
 
