@@ -27,6 +27,18 @@
       "schemaName": "public",
       "x": -420,
       "y": 478
+    },
+    {
+      "name": "Schedule",
+      "schemaName": "public",
+      "x": -669.84,
+      "y": 872.7333333333329
+    },
+    {
+      "name": "DoctorSchedule",
+      "schemaName": "public",
+      "x": -378.3599999999998,
+      "y": 1001.3799999999997
     }
   ],
   "tableGroupCollapseStates": [],
@@ -75,6 +87,36 @@
       "secondTableName": "Admin",
       "secondSchemaName": "public",
       "secondRelation": "1",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "Doctor",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "doctor_id"
+      ],
+      "secondTableName": "DoctorSchedule",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "Schedule",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "schedule_id"
+      ],
+      "secondTableName": "DoctorSchedule",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
       "checkPoints": []
     }
   ]

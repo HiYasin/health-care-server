@@ -54,3 +54,23 @@ Table Admin {
     created_at TIMESTAMP [default: `now()`]
     updated_at TIMESTAMP [default: `now()`]
 }
+
+Table Schedule {
+    id uuid [pk, default: `uuid__generate_v4()`]
+    startTime TIME
+    endTime TIME
+
+    created_at TIMESTAMP [default: `now()`]
+    updated_at TIMESTAMP [default: `now()`]
+}
+
+Table DoctorSchedule {
+    doctor_id uuid
+    schedule_id uuid
+    isBooked BOOLEAN [default: false]
+
+    id uuid [pk, default: `composite key(doctor_id, schedule_id)`]
+
+    created_at TIMESTAMP [default: `now()`]
+    updated_at TIMESTAMP [default: `now()`]
+}
