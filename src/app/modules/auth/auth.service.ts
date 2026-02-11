@@ -18,9 +18,9 @@ const login = async (payload: { email: string, password: string }) => {
         throw new ApiError(httpStatus.BAD_REQUEST, "Password is incorrect!")
     }
 
-    const accessToken = jwtHelper.generateToken({ email: user.email, role: user.role }, "abcd", "1h");
+    const accessToken = jwtHelper.generateToken({ id: user.id, email: user.email, role: user.role }, "abcd", "1h");
 
-    const refreshToken = jwtHelper.generateToken({ email: user.email, role: user.role }, "abcdefgh", "90d");
+    const refreshToken = jwtHelper.generateToken({ id: user.id, email: user.email, role: user.role }, "abcdefgh", "90d");
 
     return {
         accessToken,
