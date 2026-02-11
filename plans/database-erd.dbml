@@ -74,3 +74,20 @@ Table DoctorSchedule {
     created_at TIMESTAMP [default: `now()`]
     updated_at TIMESTAMP [default: `now()`]
 }
+
+Table Specicalities {
+    id uuid [pk, default: `uuid__generate_v4()`]
+    title VARCHAR(255) [unique]
+    icon string
+
+    created_at TIMESTAMP [default: `now()`]
+    updated_at TIMESTAMP [default: `now()`]
+}
+
+Table  DoctorSpecialities {
+    doctor_id uuid [ref: > Doctor.id]
+    speciality_id uuid [ref: > Specicalities.id]
+
+    created_at TIMESTAMP [default: `now()`]
+    updated_at TIMESTAMP [default: `now()`]
+}

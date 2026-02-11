@@ -25,20 +25,32 @@
     {
       "name": "Admin",
       "schemaName": "public",
-      "x": -420,
+      "x": -569.1459806923137,
       "y": 478
     },
     {
       "name": "Schedule",
       "schemaName": "public",
-      "x": -669.84,
-      "y": 872.7333333333329
+      "x": -936.398774003284,
+      "y": 787.0537274037059
     },
     {
       "name": "DoctorSchedule",
       "schemaName": "public",
-      "x": -378.3599999999998,
-      "y": 1001.3799999999997
+      "x": -662.3720270630226,
+      "y": 968.0601532495892
+    },
+    {
+      "name": "Specicalities",
+      "schemaName": "public",
+      "x": -792.0127714181717,
+      "y": 1378.5128589893661
+    },
+    {
+      "name": "DoctorSpecialities",
+      "schemaName": "public",
+      "x": -444.5343695924621,
+      "y": 1511.033362523731
     }
   ],
   "tableGroupCollapseStates": [],
@@ -99,7 +111,7 @@
       "secondFieldNames": [
         "doctor_id"
       ],
-      "secondTableName": "DoctorSchedule",
+      "secondTableName": "DoctorSpecialities",
       "secondSchemaName": "public",
       "secondRelation": "*",
       "checkPoints": []
@@ -108,13 +120,13 @@
       "firstFieldNames": [
         "id"
       ],
-      "firstTableName": "Schedule",
+      "firstTableName": "Specicalities",
       "firstSchemaName": "public",
       "firstRelation": "1",
       "secondFieldNames": [
-        "schedule_id"
+        "speciality_id"
       ],
-      "secondTableName": "DoctorSchedule",
+      "secondTableName": "DoctorSpecialities",
       "secondSchemaName": "public",
       "secondRelation": "*",
       "checkPoints": []
