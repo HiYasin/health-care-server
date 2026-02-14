@@ -51,6 +51,24 @@
       "schemaName": "public",
       "x": -444.5343695924621,
       "y": 1511.033362523731
+    },
+    {
+      "name": "Appointment",
+      "schemaName": "public",
+      "x": -936.398774003284,
+      "y": 1721.033362523731
+    },
+    {
+      "name": "Prescription",
+      "schemaName": "public",
+      "x": -418.4694156202237,
+      "y": 1893.2214456313125
+    },
+    {
+      "name": "Payment",
+      "schemaName": "public",
+      "x": -1396.5734197608947,
+      "y": 1741.2379159379852
     }
   ],
   "tableGroupCollapseStates": [],
@@ -129,6 +147,111 @@
       "secondTableName": "DoctorSpecialities",
       "secondSchemaName": "public",
       "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "Patient",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "patient_id"
+      ],
+      "secondTableName": "Appointment",
+      "secondSchemaName": "public",
+      "secondRelation": "1",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "Doctor",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "doctor_id"
+      ],
+      "secondTableName": "Appointment",
+      "secondSchemaName": "public",
+      "secondRelation": "1",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "schedule_id"
+      ],
+      "firstTableName": "DoctorSchedule",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "schedule_id"
+      ],
+      "secondTableName": "Appointment",
+      "secondSchemaName": "public",
+      "secondRelation": "1",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "Appointment",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "appointment_id"
+      ],
+      "secondTableName": "Prescription",
+      "secondSchemaName": "public",
+      "secondRelation": "1",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "Doctor",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "doctor_id"
+      ],
+      "secondTableName": "Prescription",
+      "secondSchemaName": "public",
+      "secondRelation": "1",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "Patient",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "patient_id"
+      ],
+      "secondTableName": "Prescription",
+      "secondSchemaName": "public",
+      "secondRelation": "1",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "Appointment",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "appointment_id"
+      ],
+      "secondTableName": "Payment",
+      "secondSchemaName": "public",
+      "secondRelation": "1",
       "checkPoints": []
     }
   ]

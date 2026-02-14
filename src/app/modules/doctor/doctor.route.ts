@@ -28,6 +28,7 @@ router.delete(
     checkAuth(UserRole.ADMIN),
     DoctorController.softDelete);
 
+router.post("/suggestion", DoctorController.getAISuggestions);
 
 
 export const DoctorRoutes = router;

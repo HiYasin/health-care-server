@@ -5,6 +5,8 @@ import { doctorSearchableFields } from "./doctor.constant";
 import { prisma } from "../../shared/prisma";
 import { IDoctorUpdateInput } from "./doctor.interface";
 import ApiError from "../../error/ApiError";
+import { openai } from '../../helper/openRouter';
+import { extractJsonFromMessage } from '../../helper/extractJsonFromMessage';
 
 const getAllFromDB = async (filters: any, options: IOptions) => {
     const { page, limit, skip, sortBy, sortOrder } = paginationHelper.calculatePagination(options);
@@ -28,7 +30,7 @@ const getAllFromDB = async (filters: any, options: IOptions) => {
         andConditions.push({
             doctorSpecialties: {
                 some: {
-                    specialities: {
+                    specialties: {
                         title: {
                             contains: specialties,
                             mode: "insensitive"
@@ -61,7 +63,7 @@ const getAllFromDB = async (filters: any, options: IOptions) => {
         include: {
             doctorSpecialties: {
                 include: {
-                    specialities: true
+                    specialties: true
                 }
             }
         }
@@ -98,7 +100,7 @@ const updateIntoDB = async (id: string, payload: Partial<IDoctorUpdateInput>) =>
                 await tnx.doctorSpecialties.deleteMany({
                     where: {
                         doctorId: id,
-                        specialitiesId: specialty.specialtyId
+                        specialtiesId: specialty.specialtyId
                     }
                 })
             }
@@ -109,7 +111,7 @@ const updateIntoDB = async (id: string, payload: Partial<IDoctorUpdateInput>) =>
                 await tnx.doctorSpecialties.create({
                     data: {
                         doctorId: id,
-                        specialitiesId: specialty.specialtyId
+                        specialtiesId: specialty.specialtyId
                     }
                 })
             }
@@ -124,12 +126,12 @@ const updateIntoDB = async (id: string, payload: Partial<IDoctorUpdateInput>) =>
             include: {
                 doctorSpecialties: {
                     include: {
-                        specialities: true
+                        specialties: true
                     }
                 }
             }
 
-            //  doctor - doctorSpecailties - specialities 
+            //  doctor - doctorSpecailties - specialties 
         })
 
         return updatedData
@@ -147,7 +149,7 @@ const getByIdFromDB = async (id: string): Promise<Doctor | null> => {
         include: {
             doctorSpecialties: {
                 include: {
-                    specialities: true,
+                    specialties: true,
                 },
             },
             doctorSchedules: {
@@ -205,11 +207,62 @@ const softDelete = async (id: string): Promise<Doctor> => {
     });
 };
 
+const getAISuggestions = async (payload: { symptoms: string }) => {
+    if (!(payload && payload.symptoms)) {
+        throw new ApiError(httpStatus.BAD_REQUEST, "symptoms is required!")
+    };
+
+    const doctors = await prisma.doctor.findMany({
+        where: { isDeleted: false },
+        include: {
+            doctorSpecialties: {
+                include: {
+                    specialties: true
+                }
+            }
+        }
+    });
+
+    // console.log("doctors data loaded.......\n");
+    const prompt = `
+You are a medical assistant AI. Based on the patient's symptoms, suggest the top 3 most suitable doctors.
+Each doctor has specialties and years of experience.
+Only suggest doctors who are relevant to the given symptoms. If not found any relevant doctor, return an empty list.
+
+Symptoms: ${payload.symptoms}
+
+Here is the doctor list (in JSON):
+${JSON.stringify(doctors, null, 2)}
+
+Return your response in JSON format with full individual doctor data. 
+`;
+
+    // console.log("analyzing......\n")
+    const completion = await openai.chat.completions.create({
+        model: 'z-ai/glm-4.5-air:free',
+        messages: [
+            {
+                role: "system",
+                content:
+                    "You are a helpful AI medical assistant that provides doctor suggestions.",
+            },
+            {
+                role: 'user',
+                content: prompt,
+            },
+        ],
+    });
+
+    const result = await extractJsonFromMessage(completion.choices[0].message)
+    return result;
+}
+
 
 export const DoctorService = {
     getAllFromDB,
     updateIntoDB,
     getByIdFromDB,
     deleteFromDB,
-    softDelete
+    softDelete,
+    getAISuggestions
 }

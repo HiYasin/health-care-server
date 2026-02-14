@@ -91,3 +91,39 @@ Table  DoctorSpecialities {
     created_at TIMESTAMP [default: `now()`]
     updated_at TIMESTAMP [default: `now()`]
 }
+
+Table Appointment {
+    id uuid [pk, default: `uuid__generate_v4()`]
+    patient_id uuid [ref: - Patient.id]
+    doctor_id uuid [ref: - Doctor.id]
+    schedule_id uuid [ref: - DoctorSchedule.schedule_id]
+    appointmentDate DATE
+    status VARCHAR(50) [note: "status IN ('scheduled', 'completed', 'cancelled')"]
+
+    created_at TIMESTAMP [default: `now()`]
+    updated_at TIMESTAMP [default: `now()`]
+}
+
+Table Prescription {
+    id uuid [pk, default: `uuid__generate_v4()`]
+    appointment_id uuid [ref: - Appointment.id]
+    doctor_id uuid [ref: - Doctor.id]
+    patient_id uuid [ref: - Patient.id]
+    instructions TEXT
+    followUpDate DATE
+
+    created_at TIMESTAMP [default: `now()`]
+    updated_at TIMESTAMP [default: `now()`]
+}
+
+Table Payment {
+    id uuid [pk, default: `uuid__generate_v4()`]
+    appointment_id uuid [ref: - Appointment.id]
+    amount DECIMAL(10, 2)
+    transactionId VARCHAR(100) [unique]
+    paymentGatewayData JSONB
+    status VARCHAR(50) [note: "status IN ('pending', 'completed', 'failed')"]
+
+    created_at TIMESTAMP [default: `now()`]
+    updated_at TIMESTAMP [default: `now()`]
+}

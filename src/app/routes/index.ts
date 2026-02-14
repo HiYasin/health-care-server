@@ -4,10 +4,10 @@ import { authRoutes } from '../modules/auth/auth.route';
 import path from 'path';
 import { ScheduleRoutes } from '../modules/schedule/schedule.route';
 import { doctorScheduleRoutes } from '../modules/doctorSchedule/doctorSchedule.route';
-import { SpecialtiesRoutes } from '../modules/specialities/specialities.route';
 import { DoctorRoutes } from '../modules/doctor/doctor.route';
 import { PatientRoutes } from '../modules/patient/patient.route';
 import { AdminRoutes } from '../modules/admin/admin.route';
+import { SpecialtiesRoutes } from '../modules/specialities/specialities.route';
 
 
 const router = express.Router();
