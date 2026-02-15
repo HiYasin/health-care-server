@@ -38,6 +38,7 @@ Table Doctor {
     currentWorkplace VARCHAR(255)
     designation VARCHAR(255)
     isDeleted BOOLEAN [default: false]
+    averageRating DECIMAL(3, 2) [default: 0.00]
 
     created_at TIMESTAMP [default: `now()`]
     updated_at TIMESTAMP [default: `now()`]
@@ -123,6 +124,51 @@ Table Payment {
     transactionId VARCHAR(100) [unique]
     paymentGatewayData JSONB
     status VARCHAR(50) [note: "status IN ('pending', 'completed', 'failed')"]
+
+    created_at TIMESTAMP [default: `now()`]
+    updated_at TIMESTAMP [default: `now()`]
+}
+
+Table Review {
+    id uuid [pk, default: `uuid__generate_v4()`]
+    appointment_id uuid [ref: - Appointment.id]
+    doctor_id uuid [ref: - Doctor.id]
+    patient_id uuid [ref: - Patient.id]
+    rating INT [note: "rating IN (1, 2, 3, 4, 5)"]
+    comment TEXT
+
+    created_at TIMESTAMP [default: `now()`]
+    updated_at TIMESTAMP [default: `now()`]
+}
+
+Table PatientHealthData {
+    id uuid [pk, default: `uuid__generate_v4()`]
+    patient_id uuid [ref: - Patient.id]
+    dateOfBirth DATE
+    height DECIMAL(5, 2)  // in cm
+    weight DECIMAL(5, 2)  // in kg
+    bloodGroup VARCHAR(3) [note: "bloodType IN ('A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-')"]
+    hasAllergies BOOLEAN
+    hasDiabetes BOOLEAN
+    smokingStatus VARCHAR(20) [note: "smokingStatus IN ('never', 'former', 'current')"]
+    dietaryPreferences TEXT
+    mentalHealthHistory TEXT
+    pregnancyStatus VARCHAR(20) [note: "pregnancyStatus IN ('not pregnant', 'pregnant', 'postpartum')"]
+    immunizationStatus TEXT
+    hasPastSurgeries BOOLEAN
+    recentAnxiety TEXT
+    recentDepression TEXT
+    maritalStatus VARCHAR(20) [note: "maritalStatus IN ('single', 'married', 'divorced', 'widowed')"]
+
+    created_at TIMESTAMP [default: `now()`]
+    updated_at TIMESTAMP [default: `now()`]
+}
+
+Table MedicalReport {
+    id int [pk, increment]
+    patient_id uuid [ref: - Patient.id]
+    reportName VARCHAR(255)
+    reportLink VARCHAR(255)
 
     created_at TIMESTAMP [default: `now()`]
     updated_at TIMESTAMP [default: `now()`]
