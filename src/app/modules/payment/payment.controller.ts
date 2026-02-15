@@ -1,0 +1,36 @@
+import { Request, Response } from "express";
+import catchAsync from "../../shared/catchAsync";
+import { PaymentService } from "./payment.service";
+import sendResponse from "../../shared/sendResponse";
+import { stripe } from "../../helper/stripe";
+import config from "../../../config";
+
+const handleStripeWebhookEvent = catchAsync(async (req: Request, res: Response) => {
+
+    // Why should we verify the webhook signature?
+    // Verifying the webhook signature ensures that the incoming request is genuinely from Stripe and has not been tampered with any fake server.
+    // It helps protect against unauthorized access and potential security threats, ensuring the integrity of the data being processed.
+
+    const sig = req.headers["stripe-signature"] as string;
+    const webhookSecret = config.stripeWebhookSecret as string;
+    
+    let event;
+    try {
+        event = stripe.webhooks.constructEvent(req.body, sig, webhookSecret);
+    } catch (err: any) {
+        console.error("⚠️ Webhook signature verification failed:", err.message);
+        return res.status(400).send(`Webhook Error: ${err.message}`);
+    }
+    const result = await PaymentService.handleStripeWebhookEvent(event);
+
+    sendResponse(res, {
+        statusCode: 200,
+        success: true,
+        message: 'Webhook req send successfully',
+        data: result,
+    });
+});
+
+export const PaymentController = {
+    handleStripeWebhookEvent
+}
