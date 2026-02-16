@@ -6,6 +6,7 @@ import { prisma } from '../../shared/prisma';
 import { patientSearchableFields } from './patient.constant';
 import { Patient, Prisma, UserStatus } from '../../../generated/prisma';
 import ApiError from '../../error/ApiError';
+import { IJWTPayload } from '../../types/common';
 
 
 const getAllFromDB = async (
@@ -108,8 +109,62 @@ const softDelete = async (id: string): Promise<Patient | null> => {
     });
 };
 
+const updateIntoDB = async (user: IJWTPayload, payload: any) => {
+    const { medicalReport, patientHealthData, ...patientData } = payload;
+
+    const patientInfo = await prisma.patient.findUniqueOrThrow({
+        where: {
+            email: user.email,
+            isDeleted: false
+        }
+    });
+
+    return await prisma.$transaction(async (tnx) => {
+        await tnx.patient.update({
+            where: {
+                id: patientInfo.id
+            },
+            data: patientData
+        })
+
+        if (patientHealthData) {
+            await tnx.patientHealthData.upsert({
+                where: {
+                    patientId: patientInfo.id
+                },
+                update: patientHealthData,
+                create: {
+                    ...patientHealthData,
+                    patientId: patientInfo.id
+                }
+            })
+        }
+
+        if (medicalReport) {
+            await tnx.medicalReport.create({
+                data: {
+                    ...medicalReport,
+                    patientId: patientInfo.id
+                }
+            })
+        }
+
+        const result = await tnx.patient.findUnique({
+            where: {
+                id: patientInfo.id
+            },
+            include: {
+                patientHealthData: true,
+                medicalReports: true
+            }
+        })
+        return result;
+    })
+}
+
 export const PatientService = {
     getAllFromDB,
     getByIdFromDB,
     softDelete,
+    updateIntoDB
 };

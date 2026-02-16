@@ -78,6 +78,8 @@ model Patient {
   appointments Appointment[]
   prescriptions Prescription[]
   reviews Review[]
+  patientHealthData PatientHealthData?
+  medicalReports MedicalReport[]
 
   @@map("patients")
 }

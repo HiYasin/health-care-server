@@ -23,4 +23,10 @@ router.delete(
     PatientController.softDelete
 );
 
+router.patch(
+    '/',
+    checkAuth(UserRole.PATIENT),
+    PatientController.updateIntoDB
+);
+
 export const PatientRoutes = router;
