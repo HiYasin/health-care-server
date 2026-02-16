@@ -4,7 +4,7 @@ import config from "../../../config";
 import { prisma } from "../../shared/prisma";
 import { fileUploader } from "../../helper/fileUploader";
 import { Request } from "express";
-import { Admin, Doctor, Prisma, UserRole } from "../../../generated/prisma";
+import { Admin, Doctor, Prisma, UserRole, UserStatus } from "../../../generated/prisma";
 import { userSearchableFields } from "./user.constant";
 import { IOptions, paginationHelper } from "../../helper/paginationHelper";
 
@@ -151,11 +151,29 @@ const getAllUsers = async (params: any, options: IOptions) => {
         },
         data: result
     };
-}
+};
+
+const changeProfileStatus = async (id: string, payload: { status: UserStatus }) => {
+    const userData = await prisma.user.findUniqueOrThrow({
+        where: {
+            id
+        }
+    })
+
+    const updateUserStatus = await prisma.user.update({
+        where: {
+            id
+        },
+        data: payload
+    })
+
+    return updateUserStatus;
+};
 
 export const UserService = {
         createPatient,
         createAdmin,
         createDoctor,
-        getAllUsers
+        getAllUsers,
+        changeProfileStatus
 };

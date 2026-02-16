@@ -36,4 +36,10 @@ router.get(
     UserController.getAllUsers
 );
 
+router.patch(
+    "/status/:id",
+    checkAuth(UserRole.ADMIN),
+    UserController.changeProfileStatus
+);
+
 export const userRoutes = router;
